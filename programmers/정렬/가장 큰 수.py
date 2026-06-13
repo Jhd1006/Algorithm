@@ -17,6 +17,7 @@
 #     return answer
 
 # 다른 풀이
+# 원소가 1000 이하, 4번 반복하여 비교
 def solution(numbers):
     numbers = list(map(str, numbers))
     numbers.sort(key = lambda x : (x * 4), reverse = True)
