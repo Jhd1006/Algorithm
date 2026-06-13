@@ -7,7 +7,7 @@ def solution(n, costs):
         v = find(v)
         if u == v:
             return False
-        if p[v] < p[u]:
+        if p[u] > p[v]:
             u, v = v, u
         if p[u] == p[v]:
             p[u] -= 1
