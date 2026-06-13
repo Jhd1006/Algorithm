@@ -1,0 +1,24 @@
+def solution(n, costs):
+    costs.sort(key = lambda x : x[2])
+    p = [-1] * n
+    answer = 0
+    def union(u, v):
+        u = find(u)
+        v = find(v)
+        if u == v:
+            return False
+        if p[u] > p[v]:
+            u, v = v, u
+        if p[u] == p[v]:
+            p[u] -= 1
+        p[v] = u
+        return True
+    def find(x):
+        if p[x] < 0:
+            return x
+        p[x] = find(p[x])
+        return p[x]
+    for u, v, c in costs:
+        if union(u, v):
+            answer += c
+    return answer
