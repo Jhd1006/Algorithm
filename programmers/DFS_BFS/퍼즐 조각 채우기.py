@@ -62,6 +62,5 @@ def solution(game_board, table):
                 tmp = rotate(tmp)
             if used[idx]:
                 break
-    if answer == -1:
-        answer = 0
+
     return answer
