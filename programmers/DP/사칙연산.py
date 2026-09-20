@@ -22,8 +22,8 @@ def solution(arr):
                     mx = dp_max[st][i] + dp_max[i+1][end]
                     mn = dp_min[st][i] + dp_min[i+1][end]
                 else:
-                    mx = dp_max[st][i] - dp_max[i+1][end]
-                    mn = dp_min[st][i] - dp_min[i+1][end]
+                    mx = dp_max[st][i] - dp_min[i+1][end]
+                    mn = dp_min[st][i] - dp_max[i+1][end]
                 dp_max[st][end] = max(dp_max[st][end], mx)
                 dp_min[st][end] = min(dp_min[st][end], mn)
                 
