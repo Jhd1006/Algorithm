@@ -1,0 +1,55 @@
+from collections import deque
+
+def solution(storage, requests):
+    answer = 0
+    w = len(storage[0])
+    h = len(storage)
+    dx = [-1, 0, 1, 0]
+    dy = [0, -1, 0, 1]
+    
+    
+    storage = [list(s) for s in storage]
+    storage.insert(0, ['.'] * w)
+    storage.append(['.'] * w)
+    storage = [['.'] + s + ['.'] for s in storage]
+    
+    def bfs(target):
+        vis = [[False] * (w + 2) for _ in range(h + 2)]
+        remove = []
+        q = deque([(0, 0)])
+        vis[0][0] = True
+        while q:
+            x, y = q.popleft()
+            for dir in range(4):
+                nx = x + dx[dir]
+                ny = y + dy[dir]
+                if nx < 0 or nx >= (h + 2) or ny < 0 or ny >= (w + 2):
+                    continue
+                if vis[nx][ny]:
+                    continue
+                if storage[nx][ny] == target:
+                    remove.append((nx, ny))
+                    continue
+                elif storage[nx][ny] != '.':
+                    continue
+                vis[nx][ny] = True
+                q.append((nx, ny))
+        for x, y in remove:
+            storage[x][y] = '.'
+        
+    for r in requests:
+        if len(r) == 2:
+            for i in range(1, h + 1):
+                for j in range(1, w + 1):
+                    if storage[i][j] == r[0]:
+                        storage[i][j] = '.'
+        else:
+            bfs(r)
+    
+    for i in range(1, h + 1):
+        for j in range(1, w + 1):
+            if storage[i][j] != '.':
+                answer += 1
+    
+        
+    return answer
