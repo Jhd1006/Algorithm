@@ -1,0 +1,54 @@
+from collections import deque
+
+def solution(storage, requests):
+    answer = 0
+    w = len(storage[0]) + 2
+    h = len(storage) + 2
+    dx = [0, 1, 0, -1]
+    dy = [1, 0, -1, 0]
+    
+    board = [['.'] * (w)]
+    for s in storage:
+        board.append(['.'] + list(s) + ['.'])
+    board.append(['.'] * (w))
+    
+    for r in requests:
+        if len(r) == 2:
+            for i in range(1, h - 1):
+                for j in range(1, w - 1):
+                    if board[i][j] == r[0]:
+                        board[i][j] = '.'
+        else:
+            vis = [[False] * w for _ in range(h)]
+            q = deque([(0, 0)])
+            vis[0][0] = True
+            remove = []
+            
+            while q:
+                x, y = q.popleft()
+                for dir in range(4):
+                    nx = x + dx[dir]
+                    ny = y + dy[dir]
+                    if nx < 0 or nx >= h or ny < 0 or ny >= w:
+                        continue
+                    if vis[nx][ny]:
+                        continue
+                    vis[nx][ny] = True
+                    if board[nx][ny] == r:
+                        remove.append((nx, ny))
+                        continue
+                    if board[nx][ny] != '.':
+                        continue
+                    q.append((nx, ny))
+                    
+            for x, y in remove:
+                board[x][y] = '.'
+    
+    # for row in board:
+    #     answer += sum(container != '.' for container in row)
+        
+    # =============== 빈 공간이 아닌 창고 내부만 돌도록 ===============     
+    for row in board[1:h-1]:
+        answer += sum(container != '.' for container in row[1:w-1])
+        
+    return answer
